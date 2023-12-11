@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-from pg.math import Vector2
+from pygame.math import Vector2
 from random import randint
 
 pg.init()
