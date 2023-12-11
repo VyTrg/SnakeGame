@@ -1,9 +1,9 @@
-import pygame
+import pygame as pg
 import sys
-from pygame.math import Vector2
+from pg.math import Vector2
 from random import randint
 
-pygame.init()
+pg.init()
 
 #RBG
 GREEN = (173, 204, 96)
@@ -17,26 +17,26 @@ number_of_sizes = 20
 OFFSET = 30
 
 #display
-screen = pygame.display.set_mode((cell_size * number_of_sizes, 
+screen = pg.display.set_mode((cell_size * number_of_sizes, 
                                 cell_size * number_of_sizes))#(widht, height)
-pygame.display.set_caption("Snake")
+pg.display.set_caption("Snake")
 
 #font
-font = pygame.font.Font(None, 30)
+font = pg.font.Font(None, 30)
 
 
 #fps
-clock = pygame.time.Clock()
+clock = pg.time.Clock()
 
 #create FOOD
-food_surface = pygame.image.load("food.png")
+food_surface = pg.image.load("food.png")
 class Food:
     def __init__(self):
         self.position = self.generate_random_position()
 
     def draw(self):
         food_rect = (self.position.x * cell_size, self.position.y * cell_size, cell_size, cell_size)
-        # pygame.draw.rect(screen, DARK_GREEN, food_rect)
+        # pg.draw.rect(screen, DARK_GREEN, food_rect)
         screen.blit(food_surface, food_rect)
     
     def generate_random_position(self):
@@ -60,7 +60,7 @@ class Snake:
     def draw(self):
         for segment in self.body:
             segment_rect = (segment.x * cell_size, segment.y * cell_size, cell_size, cell_size)
-            pygame.draw.rect(screen, DARK_GREEN, segment_rect, 0, 7)
+            pg.draw.rect(screen, DARK_GREEN, segment_rect, 0, 7)
 
     def update(self):
         self.body = self.body[:-1]
@@ -113,43 +113,43 @@ class Game:
 #     def __init__(self):
 #         self.game = Game()
 #         self.run_display = True
-#         self.cursor_rect = pygame.Rect(0, 0, 20, 20)
+#         self.cursor_rect = pg.Rect(0, 0, 20, 20)
 #         self.ofset = -100
 
 #     def draw_cursor(self):
-#         pygame.draw("*", 15, self.cursor_rect.x, self.cursor_rect.y)
+#         pg.draw("*", 15, self.cursor_rect.x, self.cursor_rect.y)
 
 game = Game()
 # menu = Menu()
 # food = Food()
 # snake = Snake()
 
-SNAKE_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SNAKE_UPDATE, 200)
+SNAKE_UPDATE = pg.USEREVENT
+pg.time.set_timer(SNAKE_UPDATE, 200)
 
 #game launch
 while True:
-    for event in pygame.event.get():
+    for event in pg.event.get():
         if event.type == SNAKE_UPDATE:
             game.update()
-        if event.type == pygame.QUIT:
-            pygame.quit()
+        if event.type == pg.QUIT:
+            pg.quit()
             sys.exit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and game.snake.direction != Vector2(0, 1):
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_UP and game.snake.direction != Vector2(0, 1):
                 game.snake.direction = Vector2(0, -1)
-            elif event.key == pygame.K_DOWN and game.snake.direction != Vector2(0, -1):    
+            elif event.key == pg.K_DOWN and game.snake.direction != Vector2(0, -1):    
                 game.snake.direction = Vector2(0, 1)
-            elif event.key == pygame.K_RIGHT and game.snake.direction != Vector2(-1, 0):
+            elif event.key == pg.K_RIGHT and game.snake.direction != Vector2(-1, 0):
                 game.snake.direction = Vector2(1, 0)
-            elif event.key == pygame.K_LEFT and game.snake.direction != Vector2(1, 0):
+            elif event.key == pg.K_LEFT and game.snake.direction != Vector2(1, 0):
                 game.snake.direction = Vector2(-1, 0)
         
     screen.fill(GREEN)
 
     #draw border
 
-    # pygame.draw.rect(screen, DARK_GREEN, 
+    # pg.draw.rect(screen, DARK_GREEN, 
     #                 (OFFSET - 10, OFFSET - 10, cell_size * number_of_sizes, cell_size * number_of_sizes))
 
     #draw food + snake
@@ -159,6 +159,6 @@ while True:
     score = font.render(f"Score : {str(game.score)}", True, DARK_GREEN)
     screen.blit(score, (10, 10))
 
-    pygame.display.update()
+    pg.display.update()
 
     clock.tick(15)
