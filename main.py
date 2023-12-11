@@ -1,127 +1,65 @@
 import pygame as pg
-import sys
-from pygame.math import Vector2
+
 from random import randint
+from food import Food
+from snake import Snake
+from game import Game
+from index import *
 
 pg.init()
 
-#RBG
-GREEN = (173, 204, 96)
-DARK_GREEN = (43, 51, 24)
-WHITE = (255, 255, 255)
-
-#create grid
-cell_size = 30
-number_of_sizes = 20
-
-#input size
-input_rect = pg.Rect(100, 100, 20, 20)
-
-#ofFset
-OFFSET = 30
-
 #display
-screen = pg.display.set_mode((cell_size * number_of_sizes, 
-                                cell_size * number_of_sizes))#(widht, height)
+#(widht, height)
 pg.display.set_caption("Snake")
-
-#font
-font = pg.font.Font(None, 30)
-
 
 #fps
 clock = pg.time.Clock()
 
-#create FOOD
-food_surface = pg.image.load("food.png")
-class Food:
-    def __init__(self):
-        self.position = self.generate_random_position()
+def get_text_func(font_name, name):
+    return {}.format(font_name).render(f"{name}", True, WHITE)
 
-    def draw(self):
-        food_rect = (self.position.x * cell_size, self.position.y * cell_size, cell_size, cell_size)
-        # pg.draw.rect(screen, DARK_GREEN, food_rect)
-        screen.blit(food_surface, food_rect)
-    
-    def generate_random_position(self):
-        x = randint(0, number_of_sizes - 1)
-        y = randint(0, number_of_sizes - 1)
-        position = Vector2(x, y)
-        return position
-
-    def reset(self):
-        x = randint(0, number_of_sizes - 1)
-        y = randint(0, number_of_sizes - 1)
-        position = Vector2(x, y)
-        return position
-
-#create SNAKE
-class Snake:
-    def __init__(self):
-        self.body = [Vector2(6, 9), Vector2(5, 9), Vector2(4, 9)]
-        self.direction = Vector2(1, 0)#Right
-
-    def draw(self):
-        for segment in self.body:
-            segment_rect = (segment.x * cell_size, segment.y * cell_size, cell_size, cell_size)
-            pg.draw.rect(screen, DARK_GREEN, segment_rect, 0, 7)
-
-    def update(self):
-        self.body = self.body[:-1]
-        self.body.insert(0, self.body[0] + self.direction)
-
-    def reset(self):
-        self.body = [Vector2(6, 9), Vector2(5, 9), Vector2(4, 9)]
-        self.direction = Vector2(1, 0)
-
-class Game:
-    def __init__(self):
-        self.snake = Snake()
-        self.food = Food()
-        self.state = "Running"
-        self.score = 0
-        self.running_menu = True
-
-    def draw(self):
-        self.snake.draw()
-        self.food.draw()
-
-    def update(self):
-        if self.state == "Running":
-            self.snake.update()
-            self.check_collision_with_food()
-            self.check_collision_with_wall()
-
-    def check_collision_with_food(self):
-        if self.snake.body[0] == self.food.position:
-            self.score = self.score + 1
-            del self.food.position
-            self.snake.body.insert(0, self.snake.body[0] + self.snake.direction)
-            self.food.position = self.food.generate_random_position()
-    
-    def check_collision_with_wall(self):
-        if self.snake.body[0].x >= number_of_sizes or self.snake.body[0].x == -1:
-            self.game_over()
-        if self.snake.body[0].y >= number_of_sizes or self.snake.body[0].y == -1:
-            self.game_over()
-
-    def game_over(self):
-        self.snake.reset()       
-        self.food.reset() 
-        self.state = "Stopped"
-        self.score = 0
-        self.running_menu = True
-
+#create menu
 class Menu(Game):
     def __init__(self):
         Game.__init__(self)
+        #define font
+        self.menu_text = title_font.render(f"Menu", True, WHITE)
+        self.start_btn = pg.transform.scale(start_img, (80, 80))
+        # self.play_text = font.render("Play", True, WHITE)
+        # self.record_text = font.render("Record", True, WHITE)
+        # self.quit_text = font.render("Quit", True, WHITE)
 
+        #text rectangels
+        self.menu_rect = self.menu_text.get_rect(center = (size / 2, size / 2 - 2 * cell_size))
+        # self.play_rect = self.play_text.get_rect(center = (size / 2, size / 2 + 2 * cell_size))
+        # self.record_rect = self.record_text.get_rect(center = (size / 2, size / 2 + 4 * cell_size))
+        # self.quit_rect = self.quit_text.get_rect(center = (size / 2, size / 2 + 6 * cell_size))
+        self.start_rect = self.start_btn.get_rect(center = (size / 2, size / 2 + 2 * cell_size))
+
+        # self.rect = start_img.get_rect()
+        #set up background
+        # self.background = pg.image.load("Asset/Background.png")
+    def update(self):
+        #screen blit center for text
+        screen.blit(self.menu_text, self.menu_rect)
+        # screen.blit(self.play_text, self.play_rect)
+        # screen.blit(self.record_text, self.record_rect)
+        # screen.blit(self.quit_text, self.quit_rect)
+        # self.background = pg.transform.scale(self.background, (size, size))
+        screen.blit(self.start_btn, self.start_rect)
     
+    def is_clicked(self):
+        pos = pg.mouse.get_pos()
+        
+        if self.start_rect.collidepoint(pos):
+            if pg.mouse.get_pressed()[0] == 1:
+                self.running_menu = False
+                # print("Clicked")
+
+
 
 game = Game()
 menu = Menu()
-# food = Food()
-# snake = Snake()
 
 SNAKE_UPDATE = pg.USEREVENT
 pg.time.set_timer(SNAKE_UPDATE, 200)
@@ -133,8 +71,14 @@ while True:
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
-
-        screen.fill(WHITE)
+            if event.type == pg.MOUSEMOTION:
+                # x_mouse, y_mouse = pg.mouse.get_pos()
+                menu.is_clicked()
+                # print(pg.mouse.get_pos())
+                
+        # screen.fill(WHITE)
+        menu.update()
+        # screen.blit(menu.play_text, menu.play_rect)
         pg.display.update()
     else:    
         for event in pg.event.get():
@@ -158,7 +102,7 @@ while True:
             #draw border
 
             # pg.draw.rect(screen, DARK_GREEN, 
-            #                 (OFFSET - 10, OFFSET - 10, cell_size * number_of_sizes, cell_size * number_of_sizes))
+            #                 (OFFSET - 10, OFFSET - 10, size, size))
 
             #draw food + snake
             game.draw()
