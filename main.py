@@ -8,10 +8,14 @@ pg.init()
 #RBG
 GREEN = (173, 204, 96)
 DARK_GREEN = (43, 51, 24)
+WHITE = (255, 255, 255)
 
 #create grid
 cell_size = 30
 number_of_sizes = 20
+
+#input size
+input_rect = pg.Rect(100, 100, 20, 20)
 
 #ofFset
 OFFSET = 30
@@ -76,7 +80,7 @@ class Game:
         self.food = Food()
         self.state = "Running"
         self.score = 0
-        # self.option = "NotReady"
+        self.running_menu = True
 
     def draw(self):
         self.snake.draw()
@@ -87,7 +91,6 @@ class Game:
             self.snake.update()
             self.check_collision_with_food()
             self.check_collision_with_wall()
-            # self.show_score()
 
     def check_collision_with_food(self):
         if self.snake.body[0] == self.food.position:
@@ -107,20 +110,16 @@ class Game:
         self.food.reset() 
         self.state = "Stopped"
         self.score = 0
+        self.running_menu = True
 
+class Menu(Game):
+    def __init__(self):
+        Game.__init__(self)
 
-# class Menu():
-#     def __init__(self):
-#         self.game = Game()
-#         self.run_display = True
-#         self.cursor_rect = pg.Rect(0, 0, 20, 20)
-#         self.ofset = -100
-
-#     def draw_cursor(self):
-#         pg.draw("*", 15, self.cursor_rect.x, self.cursor_rect.y)
+    
 
 game = Game()
-# menu = Menu()
+menu = Menu()
 # food = Food()
 # snake = Snake()
 
@@ -129,36 +128,45 @@ pg.time.set_timer(SNAKE_UPDATE, 200)
 
 #game launch
 while True:
-    for event in pg.event.get():
-        if event.type == SNAKE_UPDATE:
-            game.update()
-        if event.type == pg.QUIT:
-            pg.quit()
-            sys.exit()
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_UP and game.snake.direction != Vector2(0, 1):
-                game.snake.direction = Vector2(0, -1)
-            elif event.key == pg.K_DOWN and game.snake.direction != Vector2(0, -1):    
-                game.snake.direction = Vector2(0, 1)
-            elif event.key == pg.K_RIGHT and game.snake.direction != Vector2(-1, 0):
-                game.snake.direction = Vector2(1, 0)
-            elif event.key == pg.K_LEFT and game.snake.direction != Vector2(1, 0):
-                game.snake.direction = Vector2(-1, 0)
-        
-    screen.fill(GREEN)
+    if menu.running_menu == True:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
 
-    #draw border
+        screen.fill(WHITE)
+        pg.display.update()
+    else:    
+        for event in pg.event.get():
+            if event.type == SNAKE_UPDATE:
+                game.update()
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_UP and game.snake.direction != Vector2(0, 1):
+                    game.snake.direction = Vector2(0, -1)
+                elif event.key == pg.K_DOWN and game.snake.direction != Vector2(0, -1):    
+                    game.snake.direction = Vector2(0, 1)
+                elif event.key == pg.K_RIGHT and game.snake.direction != Vector2(-1, 0):
+                    game.snake.direction = Vector2(1, 0)
+                elif event.key == pg.K_LEFT and game.snake.direction != Vector2(1, 0):
+                    game.snake.direction = Vector2(-1, 0)
+            
+            screen.fill(GREEN)
 
-    # pg.draw.rect(screen, DARK_GREEN, 
-    #                 (OFFSET - 10, OFFSET - 10, cell_size * number_of_sizes, cell_size * number_of_sizes))
+            #draw border
 
-    #draw food + snake
-    game.draw()
+            # pg.draw.rect(screen, DARK_GREEN, 
+            #                 (OFFSET - 10, OFFSET - 10, cell_size * number_of_sizes, cell_size * number_of_sizes))
 
-    #show score
-    score = font.render(f"Score : {str(game.score)}", True, DARK_GREEN)
-    screen.blit(score, (10, 10))
+            #draw food + snake
+            game.draw()
 
-    pg.display.update()
+            #show score
+            score = font.render(f"Score : {str(game.score)}", True, DARK_GREEN)
+            screen.blit(score, (10, 10))
 
-    clock.tick(15)
+            pg.display.update()
+
+            clock.tick(15)
