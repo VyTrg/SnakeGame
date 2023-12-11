@@ -22,7 +22,7 @@ screen = pygame.display.set_mode((cell_size * number_of_sizes,
 pygame.display.set_caption("Snake")
 
 #font
-font = pygame.font.Font(None, 60)
+font = pygame.font.Font(None, 30)
 
 
 #fps
