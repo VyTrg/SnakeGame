@@ -9,8 +9,7 @@ class Food:
         self.position = self.generate_random_position()
 
     def draw(self):
-        food_rect = (self.position.x * cell_size, self.position.y * cell_size, cell_size, cell_size)
-        # pg.draw.rect(screen, DARK_GREEN, food_rect)
+        food_rect = (self.position.x * cell_size, self.position.y * cell_size, cell_size, cell_size)    
         screen.blit(food_surface, food_rect)
     
     def generate_random_position(self):

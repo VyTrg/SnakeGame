@@ -26,6 +26,7 @@ font = pg.font.Font("Asset/font.ttf", 40)
 
 #button
 start_img = pg.image.load("Asset/start_btn.png")
+exit_img = pg.image.load("Asset/exit_btn.png")
 
 screen = pg.display.set_mode((size, size))
 
