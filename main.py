@@ -13,6 +13,9 @@ pg.display.set_caption("Snake")
 #fps
 clock = pg.time.Clock()
 
+def text_rect(title_rect, k):
+    return title_rect.get_rect(center = (size / 2, size / 2 + k * cell_size))
+
 #create menu
 class Menu(Game):
     def __init__(self):
@@ -23,9 +26,9 @@ class Menu(Game):
         self.exit_btn = pg.transform.scale(exit_img, (80, 80))
 
         #text rectangels
-        self.menu_rect = self.menu_text.get_rect(center = (size / 2, size / 2 - 2 * cell_size))
-        self.start_rect = self.start_btn.get_rect(center = (size / 2, size / 2 + 2 * cell_size))
-        self.exit_rect = self.exit_btn.get_rect(center = (size / 2, size / 2 + 5 * cell_size))
+        self.menu_rect = text_rect(self.menu_text, -2)
+        self.start_rect = text_rect(self.start_btn, 2)
+        self.exit_rect = text_rect(self.exit_btn, 5)
 
         #background
     def update(self):
