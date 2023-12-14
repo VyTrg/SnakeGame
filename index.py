@@ -28,6 +28,11 @@ font = pg.font.Font("Asset/font.ttf", 40)
 start_img = pg.image.load("Asset/start_btn.png")
 exit_img = pg.image.load("Asset/exit_btn.png")
 
+# screen
 screen = pg.display.set_mode((size, size))
 
+# food
 food_surface = pg.image.load("Asset/food.png")
+
+# background
+background = pg.image.load("Asset/Background.png")

@@ -68,7 +68,7 @@ while True:
             if event.type == pg.MOUSEBUTTONDOWN:
                 
                 menu.is_clicked()
-                
+        screen.blit(background, (0, 0))
         menu.update()
         pg.display.update()
     else:    
