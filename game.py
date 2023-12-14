@@ -31,9 +31,9 @@ class Game:
             self.food.position = self.food.generate_random_position()
     
     def check_collision_with_wall(self):
-        if self.snake.body[0].x >= number_of_sizes or self.snake.body[0].x == 0:
+        if self.snake.body[0].x >= number_of_sizes or self.snake.body[0].x == -1:
             self.game_over()
-        if self.snake.body[0].y >= number_of_sizes or self.snake.body[0].y == 0:
+        if self.snake.body[0].y >= number_of_sizes or self.snake.body[0].y == -1:
             self.game_over()
 
     def game_over(self):

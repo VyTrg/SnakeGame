@@ -10,7 +10,7 @@ class Snake:
 
     def draw(self):
         for segment in self.body:
-            segment_rect = (segment.x * cell_size, segment.y * cell_size, cell_size, cell_size)
+            segment_rect = (OFFSET + segment.x * cell_size, OFFSET + segment.y * cell_size, cell_size, cell_size)
             pg.draw.rect(screen, DARK_GREEN, segment_rect, 0, 7)
 
     def update(self):

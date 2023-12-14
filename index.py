@@ -22,17 +22,19 @@ OFFSET = 30
 
 #font
 title_font = pg.font.Font("Asset/font.ttf", 60)
-font = pg.font.Font("Asset/font.ttf", 40)
+font = pg.font.Font("Asset/font.ttf", 20)
 
 #button
 start_img = pg.image.load("Asset/start_btn.png")
 exit_img = pg.image.load("Asset/exit_btn.png")
 
 # screen
-screen = pg.display.set_mode((size, size))
+screen = pg.display.set_mode((size + OFFSET, size + OFFSET))
 
 # food
 food_surface = pg.image.load("Asset/food.png")
 
 # background
 background = pg.image.load("Asset/Background.png")
+
+#border

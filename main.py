@@ -90,6 +90,9 @@ while True:
             
             screen.fill(GREEN)
 
+            pg.draw.rect(screen, DARK_GREEN, (OFFSET, OFFSET, size - OFFSET, size - OFFSET), 3)
+            # pg.display.flip()
+
             #draw border
 
             #draw food + snake
@@ -97,7 +100,7 @@ while True:
 
             #show score
             score = font.render(f"Score : {str(game.score)}", True, DARK_GREEN)
-            screen.blit(score, (10, 10))
+            screen.blit(score, (0,0))
 
             pg.display.update()
 
