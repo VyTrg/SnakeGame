@@ -13,13 +13,13 @@ class Food:
         screen.blit(food_surface, food_rect)
     
     def generate_random_position(self):
-        x = randint(0, number_of_sizes - 1)
-        y = randint(0, number_of_sizes - 1)
+        x = randint(0, number_of_sizes - 2)
+        y = randint(0, number_of_sizes - 2)
         position = Vector2(x, y)
         return position
 
     def reset(self):
-        x = randint(0, number_of_sizes - 1)
-        y = randint(0, number_of_sizes - 1)
+        x = randint(0, number_of_sizes - 2)
+        y = randint(0, number_of_sizes - 2)
         position = Vector2(x, y)
         return position
