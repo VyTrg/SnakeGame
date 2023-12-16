@@ -8,6 +8,7 @@ pg.init()
 GREEN = (173, 204, 96)
 DARK_GREEN = (43, 51, 24)
 WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 
 #create grid
 cell_size = 30
@@ -30,6 +31,7 @@ exit_img = pg.image.load("Asset/exit_btn.png")
 
 # screen
 screen = pg.display.set_mode((size + OFFSET, size + OFFSET))
+screen_over = pg.display.set_mode((size + OFFSET, size + OFFSET))
 
 # food
 food_surface = pg.image.load("Asset/food.png")

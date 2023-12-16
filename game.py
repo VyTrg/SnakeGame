@@ -12,6 +12,7 @@ class Game:
         self.state = "Running"
         self.score = 0
         self.running_menu = True
+        self.gameover = False
 
     def draw(self):
         self.snake.draw()
@@ -43,8 +44,9 @@ class Game:
             self.game_over()
 
     def game_over(self):
-        self.snake.reset()       
-        self.food.reset() 
+        # self.snake.reset()       
+        # self.food.reset() 
         self.state = "Stopped"
-        self.score = 0
+        # self.score = 0
         self.running_menu = True
+        self.gameover = True

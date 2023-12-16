@@ -50,8 +50,24 @@ class Menu(Game):
                 pg.quit()
                 sys.exit()
 
+class GameOver():
+    def __init__(self):
+        # Game.__init__(self)
 
+        self.game_over_text = title_font.render(f"Game over", True, WHITE)
+        self.game_over_rect = self.game_over_text.get_rect(center = (size / 2, size / 2 + OFFSET))
 
+    def display(self):
+        while True:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    sys.exit()
+            screen_over.fill(BLACK)
+            screen_over.blit(self.game_over_text, self.game_over_rect)
+            pg.display.update()
+
+over = GameOver()
 game = Game()
 menu = Menu()
 
@@ -60,21 +76,24 @@ pg.time.set_timer(SNAKE_UPDATE, 200)
 
 #game launch
 while True:
+    #menu
     if menu.running_menu == True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
             if event.type == pg.MOUSEBUTTONDOWN:
-                
                 menu.is_clicked()
         screen.blit(background, (0, 0))
         menu.update()
         pg.display.update()
-    else:    
+    #play screen
+    else:   
         for event in pg.event.get():
             if event.type == SNAKE_UPDATE:
                 game.update()
+                if game.gameover == True:
+                    over.display()
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
@@ -87,7 +106,7 @@ while True:
                     game.snake.direction = Vector2(1, 0)
                 elif event.key == pg.K_LEFT and game.snake.direction != Vector2(1, 0):
                     game.snake.direction = Vector2(-1, 0)
-            
+                    
             screen.fill(GREEN)
 
             pg.draw.rect(screen, DARK_GREEN, (OFFSET, OFFSET, size - OFFSET, size - OFFSET), 3)
