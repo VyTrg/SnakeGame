@@ -3,9 +3,12 @@ import sys
 from pygame.math import Vector2
 from random import randint
 from index import *
+from snake import *
 
-class Food:
+class Food(Snake):
     def __init__(self):
+        Snake.__init__(self)
+
         self.position = self.generate_random_position()
 
     def draw(self):
